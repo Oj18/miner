@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Miner</title>
+	<link rel="stylesheet" href="main.css">
+    <script type="text/javascript" src="game.js"></script>
+</head>
+
+<body onload="run();">
+<div class="container">
+  <div class="sidebar1">
+  	<div style="margin-left: 10px; margin-top: 5px;">
+    	<div id="money-count">$0</div>
+    	<div id="material-count">0 materials</div>
+        <br />
+        <div id="worker-count">0 workers</div>
+    </div>
+    <!-- end .sidebar1 --></div>
+  <div class="content">
+  	<div class="main" style="margin-left: 10px;">
+    	<button type="button" width="200px" id="mine" onclick="mine();">Mine</button>
+    	<br />
+    	<button type="button" width="300px" id="sell-1" onclick="sell();">Sell 1x</button>
+        <button type="button" width="300px" id="sell-10" onclick="sellmore();">Sell 10x</button>
+        <button type="button" width="300px" id="sell-all" onclick="sellall();">Sell All</button> <br /> <br />
+        <button type="button" width="300px" id="worker" onclick="worker();">Worker</button>
+        <div id="worker-desc">Mines 1 material per second</div>
+        <div id="worker-cost">Costs: $5</div> <br />
+	</div>
+    
+    <div class="research" style="margin-left: 60vh; top:10px; position:fixed; text-align:center;">
+    	Research:
+        <a href="#" onclick="research();" style="text-decoration:none; color:black;">
+    		<div class="research" onclick="research();" style="max-width:200px; background-color:lightgray;">
+        		<h4 id="research-title" style="margin-bottom:0px">Auto Seller</h4>
+            	<div id="research-cost">Costs: $15</div>
+            	<br />
+            	<div id="research-desc">Adds a switch to automaticly sell materials (toggleable)</div>
+        	</div>
+        </a>
+    </div>
+   <!-- end .content --></div>
+ <!-- end .container --></div>
+</body>
+</html>
