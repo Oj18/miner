@@ -6,28 +6,59 @@ var workeradd = 1;
 var upgrade = 0;
 var autosell = false;
 var hasautosell = false;
+var shopallowed = false;
+var shopcount = 0;
+var shopcost = 200;
+var exchange = 1;
 
 function update() {
 	if (hasautosell) {
-		document.getElementById("autosell").hidden = false;
+		$("#autosell").fadeIn("slow");
+		
 		if (autosell) {
 			document.getElementById("autosell").innerHTML = "Autosell ON";
 		} else {
 			document.getElementById("autosell").innerHTML = "Autosell OFF";
 		}
 	} else {
-		document.getElementById("autosell").hidden = true;
+		$("#autosell").hide();
 	}
 	
-	if (autosell) {
-		money += materials;
-		materials = 0;	
+	if (autosell) sell(materials);
+	
+	if (Math.round(Math.random()) == 0) {
+		exchange += Math.random() / 100000000000;
+	} else {
+		exchange -= Math.random() / 100000000000;
 	}
+	
+	document.getElementById("exchange").innerHTML = "Exchange rate: 1 material = $" + exchange.toFixed(10);
 	
 	document.getElementById("material-count").innerHTML = materials + " materials";
 	document.getElementById("money-count").innerHTML = "$" + money;
 	document.getElementById("worker-cost").innerHTML = "Costs: $" + workercost;
-	document.getElementById("worker-count").innerHTML = workercount + " workers";
+	
+	if (workercount == 1) {
+		document.getElementById("worker-count").innerHTML = "1 worker";
+	} else {
+		document.getElementById("worker-count").innerHTML = workercount + " workers";
+	}
+	
+	if (shopallowed) {
+		$("#shop-container").fadeIn("slow");
+		$("#shop-count").fadeIn("slow");
+	} else {
+		document.getElementById("shop-container").hidden = true;
+		document.getElementById("shop-count").hidden = true;
+	}
+	
+	document.getElementById("shop-cost").innerHTML = "$" + (shopcost / 2) + " " + (shopcost / 2) + " materials";
+	
+	if (shopcount == 1) {
+		document.getElementById("shop-count").innerHTML = "1 shop";
+	} else {
+		document.getElementById("shop-count").innerHTML = shopcount + " shops";
+	}
 	
 	if (workeradd == 1) {
 		document.getElementById("worker-desc").innerHTML = "Mines 1 material per second";	
@@ -38,7 +69,7 @@ function update() {
 	setUpgradeText();
 }
 
-function toggleAutosell() {
+function autosell() {
 	autosell = !autosell;
 }
 
@@ -50,27 +81,21 @@ function setUpgradeText() {
 	}
 	
 	if (upgrade == 1) {
-		if (workercount >= 5) {
-			if (!$(".upgrade").is(":visible")) $(".upgrade").fadeIn("slow");
-			
-			document.getElementById("upgrade-title").innerHTML = "Hard hats";
-			document.getElementById("upgrade-cost").innerHTML = "Costs: $100";
-			document.getElementById("upgrade-desc").innerHTML = "Hard hats for your workers to wear... +1 material per second for workers";
-		} else {
-			if ($(".upgrade").is(":visible")) $(".upgrade").fadeOut("slow");
-		}
+		document.getElementById("upgrade-title").innerHTML = "Hard hats";
+		document.getElementById("upgrade-cost").innerHTML = "Costs: $100";
+		document.getElementById("upgrade-desc").innerHTML = "Hard hats for your workers to wear... +1 material per second for workers";
 	}
 	
 	if (upgrade == 2) {
-		if (workercount >= 10) {
-			if (!$(".upgrade").is(":visible")) $(".upgrade").fadeIn("slow");
-			
-			document.getElementById("upgrade-title").innerHTML = "High-Vis Jackets";
-			document.getElementById("upgrade-cost").innerHTML = "Costs: $300";
-			document.getElementById("upgrade-desc").innerHTML = "Some high-vis jackets so your workers will be seen... +1 material per second for workers";
-		} else {
-			if ($(".upgrade").is(":visible")) $(".upgrade").fadeOut("slow");
-		}
+		document.getElementById("upgrade-title").innerHTML = "High-Vis Jackets";
+		document.getElementById("upgrade-cost").innerHTML = "Costs: $300";
+		document.getElementById("upgrade-desc").innerHTML = "Some high-vis jackets so your workers will be seen... +1 material per second for workers";
+	}
+	
+	if (upgrade == 3) {
+		document.getElementById("upgrade-title").innerHTML = "Shops";
+		document.getElementById("upgrade-cost").innerHTML = "Costs: $500";
+		document.getElementById("upgrade-desc").innerHTML = "Allows you to build shops that increase the conversion rate of materials";
 	}
 }
 
@@ -85,34 +110,47 @@ function mine() {
 	materials++;	
 }
 
+function sell(amount) {
+	money += amount * exchange;
+	materials -= amount;
+}
+
 function sellall() {
-	money += materials;
-	materials = 0;
+	sell(materials);
 }
 
-function sell() {
-	if (materials >= 1) {
-		materials--;
-		money++;
-	}
+function sellone() {
+	if (materials >= 1) sell(1);
 }
 
-function sellmore() {
-	if (materials >= 10) {
-		materials -= 10;
-		money += 10;
-	}
+function sellten() {
+	if (materials >= 10) sell(10);
 }
 
 function worker() {
 	if (money >= workercost) {
 		money -= workercost;
-		workercost *= 1.8;
-		workercost = Math.round(workercost);
+		
+		workercost *= 2;
+		
 		workercount++;
+		
 		var interval = setInterval(function(){
 			materials += workeradd;
 		}, 1000);
+	}
+}
+
+function shop() {
+	if (money >= (shopcost / 2) && materials >= (shopcost / 2)) {
+		money -= (shopcost / 2);
+		materials -= (shopcost / 2);
+		
+		shopcost *= 2;
+			
+		shopcount++;
+		
+		exchange += 0.1;
 	}
 }
 
@@ -145,6 +183,16 @@ function buyupgrade() {
 			
 			workeradd++;
 			
+			enough = true;
+		}
+	}
+	
+	if (upgrade == 3) {
+		if (money >= 500) {
+			money -= 500;
+			
+			shopallowed = true;
+;			
 			enough = true;
 		}
 	}

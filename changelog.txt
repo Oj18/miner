@@ -11,3 +11,18 @@ v0.1.1
 - Made upgrade header text not centered (to solve a bug)
 - Changed padding of content
 - Added link to changelog (this) on page
+
+v0.2.0
+- Changed upgrade system back-end
+- Added Shops upgrade (3)
+- Added shop purchasing
+- Added exchange rate functionality
+- Added exchange rate display
+- Made exchange rate slowly change
+- Added version number display in bottom right
+- Slightly reduced padding of upgrade panel
+- Added headers
+- Added buy functionality
+- Added UI buttons, buy 1x, buy 10x, buy all
+- Changed position of auto sell
+- Made auto sell and shops fade in when upgraded

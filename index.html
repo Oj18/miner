@@ -16,32 +16,50 @@
     	<div id="material-count">0 materials</div>
         <br />
         <div id="worker-count">0 workers</div>
+        <div id="shop-count">0 shops</div>
         
-        <a href="https://oj18.github.io/miner/changelog.txt" style="position: absolute; bottom: 0; margin-bottom:10px;">Changelog</a>
+        <div style="position: absolute; bottom: 0; margin-bottom:10px;">
+        	<a href="https://oj18.github.io/miner/changelog.txt" target="_blank" >Changelog</a>
+            <div>Miner v0.2.0</div>
+        </div>
     </div>
     <!-- end .sidebar1 --></div>
   <div class="content">
   	<div class="main" style="margin-left: -55px;">
-    	<button type="button" width="200px" id="mine" onclick="mine();">Mine</button>
-    	<br />
-    	<button type="button" width="300px" id="sell-1" onclick="sell();">Sell 1x</button>
-        <button type="button" width="300px" id="sell-10" onclick="sellmore();">Sell 10x</button>
-        <button type="button" width="300px" id="sell-all" onclick="sellall();">Sell All</button> <br />
-        <button type="button" width="300px" id="autosell" onclick="toggleAutosell();">Autosell</button> <br /> <br />
+    	<button type="button" width="200px" id="mine" onclick="mine();">Mine</button> <br /> <br />
+       	
+        <div style="text-decoration:underline">Exchange</div>
+    	<button type="button" width="300px" id="sellone" onclick="sellone();">Sell 1x</button>
+        <button type="button" width="300px" id="sellten" onclick="sellten();">Sell 10x</button>
+        <button type="button" width="300px" id="sellall" onclick="sellall();">Sell All</button> <br />
+        <button type="button" width="300px" id="buyone" onclick="buyone();">Buy 1x</button>
+        <button type="button" width="300px" id="buyten" onclick="buylten();">Buy 10x</button>
+        <button type="button" width="300px" id="buyall" onclick="buyall();">Buy All</button> <br />
+        <div id="exchange">Exchange rate: 1 material = $1</div>
+        <button type="button" width="300px" id="autosell" onclick="autosell();">Autosell OFF</button> <br /> <br />
+        
+        <div style="text-decoration:underline">Purchase / Build</div>
+        
         <button type="button" width="300px" id="worker" onclick="worker();">Worker</button>
         <div id="worker-desc">Mines 1 material per second</div>
-        <div id="worker-cost">Costs: $5</div> <br />
+        <div id="worker-cost">Costs: $5</div> <br /> <br />
+        
+        <div id="shop-container">
+        	<button type="button" width="300px" id="shop" onclick="shop();">Shop</button>
+            <div id="shop-desc">Increases conversion rate for materials (by 0.1)</div>
+            <div id="shop-cost">Costs: $100</div>
+        </div>
 	</div>
     
-    <div class="upgrade-container" style="margin-left: 60vh; top:10px; position:fixed;">
-    	Upgrade:
+    <div class="upgrade-container" style="margin-left: 60vh; top:8px; position:fixed;">
+    	<div style="text-decoration:underline">Upgrades:</div>
         <div class="upgrade">
         	<a href="#" onclick="buyupgrade();" style="text-decoration:none; color:black;">
     			<div class="upgrade" style="max-width:200px; background-color:lightgray; text-align:center">
-        			<h4 id="upgrade-title" style="margin-bottom:0px">Auto Seller</h4>
-            		<div id="upgrade-cost">Costs: $15</div>
+        			<h4 id="upgrade-title" style="margin-bottom:0px"></h4>
+            		<div id="upgrade-cost"></div>
             		<br />
-            		<div id="upgrade-desc">Adds a switch to automaticly sell materials (toggleable)</div>
+            		<div id="upgrade-desc"></div>
         		</div>
         	</a>
         </div>
