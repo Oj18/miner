@@ -100,10 +100,46 @@ function setUpgradeText() {
 }
 
 function run() {
+	if (localStorage.getItem('materials')) materials = localStorage.getItem('materials');
+	if (localStorage.getItem('money')) money = localStorage.getItem('money');
+	if (localStorage.getItem('workercount')) workercount = localStorage.getItem('workercount');
+	if (localStorage.getItem('workercost')) workercost = localStorage.getItem('workercost');
+	if (localStorage.getItem('workeradd')) workeradd = localStorage.getItem('workeradd');
+	if (localStorage.getItem('upgrade')) upgrade = localStorage.getItem('upgrade');
+	if (localStorage.getItem('autosell')) autosell = localStorage.getItem('autosell');
+	if (localStorage.getItem('hasautosell')) hasautosell = localStorage.getItem('hasautosell');
+	if (localStorage.getItem('shopallowed')) shopallowed = localStorage.getItem('shopallowed');
+	if (localStorage.getItem('shopcount')) shopcount = localStorage.getItem('shopcount');
+	if (localStorage.getItem('shopcost')) shopcost = localStorage.getItem('shopcost');
+	if (localStorage.getItem('exchange')) exchange = localStorage.getItem('exchange');
+	
 	update();
 	var interval = setInterval(function(){
 		update();
 	}, 1);
+	
+	$("#saved").hide();
+	
+	var interval2 = setInterval(function(){
+		save();
+	}, 5000);
+}
+
+function save() {
+	localStorage.setItem('materials', materials);
+	localStorage.setItem('money', money);
+	localStorage.setItem('workercount', workercount);
+	localStorage.setItem('workercost', workercost);
+	localStorage.setItem('workeradd', workeradd);
+	localStorage.setItem('upgrade', upgrade);
+	localStorage.setItem('autosell', autosell);
+	localStorage.setItem('hasautosell', hasautosell);
+	localStorage.setItem('shopallowed', shopallowed);
+	localStorage.setItem('shopcount', shopcount);
+	localStorage.setItem('shopcost', shopcost);
+	localStorage.setItem('exchange', exchange);
+	
+	$("#saved").fadeIn("slow", function(){ setTimeout(function(){ $("#saved").fadeOut("slow");}, 500); });
 }
 
 function mine() {

@@ -26,3 +26,7 @@ v0.2.0
 - Added UI buttons, buy 1x, buy 10x, buy all
 - Changed position of auto sell
 - Made auto sell and shops fade in when upgraded
+
+UNRELEASED - v0.3.0
+- Added saving (every 5 seconds)
+- Added saving text
