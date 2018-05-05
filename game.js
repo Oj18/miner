@@ -149,8 +149,8 @@ function save() {
 	localStorage.setItem('hasautosell', JSON.stringify(hasautosell));
 	localStorage.setItem('shopallowed', JSON.stringify(shopallowed));
 	localStorage.setItem('shopcount', JSON.stringify(shopcount));
-	localStorage.setItem('shopcost', JSON.stringify(shopcost.toString));
-	localStorage.setItem('exchange', JSON.stringify(exchange.toString));
+	localStorage.setItem('shopcost', JSON.stringify(shopcost));
+	localStorage.setItem('exchange', JSON.stringify(exchange));
 	
 	$("#saved").fadeIn("slow", function(){ setTimeout(function(){ $("#saved").fadeOut("slow");}, 500); });
 }
