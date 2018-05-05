@@ -5,6 +5,7 @@
 	<title>Miner</title>
 	<link rel="stylesheet" href="main.css">
     <script type="text/javascript" src="game.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
 <body onload="run();">
@@ -15,30 +16,35 @@
     	<div id="material-count">0 materials</div>
         <br />
         <div id="worker-count">0 workers</div>
+        
+        <a href="https://oj18.github.io/miner/changelog.txt" style="position: absolute; bottom: 0; margin-bottom:10px;">Changelog</a>
     </div>
     <!-- end .sidebar1 --></div>
   <div class="content">
-  	<div class="main" style="margin-left: 10px;">
+  	<div class="main" style="margin-left: -55px;">
     	<button type="button" width="200px" id="mine" onclick="mine();">Mine</button>
     	<br />
     	<button type="button" width="300px" id="sell-1" onclick="sell();">Sell 1x</button>
         <button type="button" width="300px" id="sell-10" onclick="sellmore();">Sell 10x</button>
-        <button type="button" width="300px" id="sell-all" onclick="sellall();">Sell All</button> <br /> <br />
+        <button type="button" width="300px" id="sell-all" onclick="sellall();">Sell All</button> <br />
+        <button type="button" width="300px" id="autosell" onclick="toggleAutosell();">Autosell</button> <br /> <br />
         <button type="button" width="300px" id="worker" onclick="worker();">Worker</button>
         <div id="worker-desc">Mines 1 material per second</div>
         <div id="worker-cost">Costs: $5</div> <br />
 	</div>
     
-    <div class="research" style="margin-left: 60vh; top:10px; position:fixed; text-align:center;">
-    	Research:
-        <a href="#" onclick="research();" style="text-decoration:none; color:black;">
-    		<div class="research" onclick="research();" style="max-width:200px; background-color:lightgray;">
-        		<h4 id="research-title" style="margin-bottom:0px">Auto Seller</h4>
-            	<div id="research-cost">Costs: $15</div>
-            	<br />
-            	<div id="research-desc">Adds a switch to automaticly sell materials (toggleable)</div>
-        	</div>
-        </a>
+    <div class="upgrade-container" style="margin-left: 60vh; top:10px; position:fixed;">
+    	Upgrade:
+        <div class="upgrade">
+        	<a href="#" onclick="buyupgrade();" style="text-decoration:none; color:black;">
+    			<div class="upgrade" style="max-width:200px; background-color:lightgray; text-align:center">
+        			<h4 id="upgrade-title" style="margin-bottom:0px">Auto Seller</h4>
+            		<div id="upgrade-cost">Costs: $15</div>
+            		<br />
+            		<div id="upgrade-desc">Adds a switch to automaticly sell materials (toggleable)</div>
+        		</div>
+        	</a>
+        </div>
     </div>
    <!-- end .content --></div>
  <!-- end .container --></div>

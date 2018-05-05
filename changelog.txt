@@ -1,0 +1,13 @@
+Miner changelog
+
+v0.1.0 - Initial release
+- Initial release
+
+v0.1.1
+- Removed max-width property (bars to the right and left)
+- Changed price of Hard Hats upgrade (1) to $100
+- Added High-Vis Jackets upgrade (2)
+- Made upgrades fade in and out
+- Made upgrade header text not centered (to solve a bug)
+- Changed padding of content
+- Added link to changelog (this) on page
