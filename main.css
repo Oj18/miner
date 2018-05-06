@@ -59,10 +59,15 @@ a:hover, a:active, a:focus { /* this group of selectors will give a keyboard nav
 4) If you prefer your nav on the left instead of the right, simply float these columns the opposite direction (all left instead of all right) and they'll render in reverse order. There's no need to move the divs around in the HTML source.
 
 */
+@media (max-width : 320px) {
+	.sidebar1 {
+		width:30%;	
+	}
+}
 
 .sidebar1 {
 	float: right;
-	width: 14%;
+	width: 15%;
 	background-color: lightgray;
 	height: 100vh;
 	padding-bottom: 10px;
