@@ -35,7 +35,7 @@ function update() {
 	document.getElementById("exchange").innerHTML = "Exchange rate: 1 material = $" + exchange.toFixed(10);
 	
 	document.getElementById("material-count").innerHTML = materials + " materials";
-	document.getElementById("money-count").innerHTML = "$" + money;
+	document.getElementById("money-count").innerHTML = "$" + money,toFixed(2);
 	document.getElementById("worker-cost").innerHTML = "Costs: $" + workercost;
 	
 	if (workercount == 1) {
@@ -97,22 +97,15 @@ function setUpgradeText() {
 		document.getElementById("upgrade-cost").innerHTML = "Costs: $500";
 		document.getElementById("upgrade-desc").innerHTML = "Allows you to build shops that increase the conversion rate of materials";
 	}
+	
+	if (upgrade == 4) {
+		document.getElementById("upgrade-title").innerHTML = "Dogs";
+		document.getElementById("upgrade-cost").innerHTML = "Costs: $1000";
+		document.getElementById("upgrade-desc").innerHTML = "Every worker gets a companion dog... +2 materials per second for workers";
+	}
 }
 
 function run() {
-	/*if (localStorage.getItem('materials')) materials = parseInt(localStorage.getItem('materials'));
-	if (localStorage.getItem('money')) money = parseInt(localStorage.getItem('money'));
-	if (localStorage.getItem('workercount')) workercount = parseInt(localStorage.getItem('workercount'));
-	if (localStorage.getItem('workercost')) workercost = parseInt(localStorage.getItem('workercost'));
-	if (localStorage.getItem('workeradd')) workeradd = parseInt(localStorage.getItem('workeradd'));
-	if (localStorage.getItem('upgrade')) upgrade = parseInt(localStorage.getItem('upgrade'));
-	if (localStorage.getItem('autosell')) autosell = JSON.parse(localStorage.getItem('autosell'));
-	if (localStorage.getItem('hasautosell')) hasautosell = JSON.parse(localStorage.getItem('hasautosell'));
-	if (localStorage.getItem('shopallowed')) shopallowed = JSON.parse(localStorage.getItem('shopallowed'));
-	if (localStorage.getItem('shopcount')) shopcount = parseInt(localStorage.getItem('shopcount'));
-	if (localStorage.getItem('shopcost')) shopcost = parseInt(localStorage.getItem('shopcost'));
-	if (localStorage.getItem('exchange')) exchange = parseInt(localStorage.getItem('exchange'));*/
-	
 	if (localStorage.getItem('materials')) materials = JSON.parse(localStorage.getItem('materials'));
 	if (localStorage.getItem('money')) money = JSON.parse(localStorage.getItem('money'));
 	if (localStorage.getItem('workercount')) workercount = JSON.parse(localStorage.getItem('workercount'));
@@ -151,6 +144,12 @@ function save() {
 	localStorage.setItem('shopcount', JSON.stringify(shopcount));
 	localStorage.setItem('shopcost', JSON.stringify(shopcost));
 	localStorage.setItem('exchange', JSON.stringify(exchange));
+	
+	for (var i = 0; i < workercount; i++) {
+		var interval = setInterval(function(){
+			materials += workeradd;
+		}, 1000);
+	}
 	
 	$("#saved").fadeIn("slow", function(){ setTimeout(function(){ $("#saved").fadeOut("slow");}, 500); });
 }
@@ -241,7 +240,17 @@ function buyupgrade() {
 			money -= 500;
 			
 			shopallowed = true;
-;			
+			
+			enough = true;
+		}
+	}
+	
+	if (upgrade == 4) {
+		if (money >= 1000) {
+			money -= 1000;
+			
+			workeradd += 2;
+			
 			enough = true;
 		}
 	}
