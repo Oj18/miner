@@ -19,6 +19,9 @@ h1, h2, h3, h4, h5, h6, p {
 	padding-right: 15px;
 	padding-left: 15px; /* adding the padding to the sides of the elements within the divs, instead of the divs themselves, gets rid of any box model math. A nested div with side padding can also be used as an alternate method. */
 }
+
+
+
 a img { /* this selector removes the default blue border displayed in some browsers around an image when it is surrounded by a link */
 	border: none;
 }
@@ -58,16 +61,15 @@ a:hover, a:active, a:focus { /* this group of selectors will give a keyboard nav
 */
 .sidebar1 {
 	float: right;
-	width: 15%;
+	width: 14%;
 	background-color: lightgray;
 	height: 100vh;
 	padding-bottom: 10px;
 	display:block;
 }
 .content {
-	padding: 10px 0;
-	width: 80%;
-	float: right;
+	padding-left: 10px;
+	padding-top: 10px;
 }
 
 /* ~~ This grouped selector gives the lists in the .content area space ~~ */

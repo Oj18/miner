@@ -35,7 +35,7 @@ function update() {
 	document.getElementById("exchange").innerHTML = "Exchange rate: 1 material = $" + exchange.toFixed(10);
 	
 	document.getElementById("material-count").innerHTML = materials + " materials";
-	document.getElementById("money-count").innerHTML = "$" + money,toFixed(2);
+	document.getElementById("money-count").innerHTML = "$" + money.toFixed(2);
 	document.getElementById("worker-cost").innerHTML = "Costs: $" + workercost;
 	
 	if (workercount == 1) {
