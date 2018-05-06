@@ -45,7 +45,7 @@ a:hover, a:active, a:focus { /* this group of selectors will give a keyboard nav
 	background-color: #FFF;
 	margin: 0 auto; /* the auto value on the sides, coupled with the width, centers the layout. It is not needed if you set the .container's width to 100%. */
 	overflow: hidden; /* this declaration makes the .container clear all floated columns within it. */
-	height: 100vh;
+	height: 100%;
 }
 
 /* ~~ These are the columns for the layout. ~~ 
@@ -69,10 +69,11 @@ a:hover, a:active, a:focus { /* this group of selectors will give a keyboard nav
 	float: right;
 	width: 15%;
 	background-color: lightgray;
-	height: 100vh;
+	height: 100%;
 	padding-bottom: 10px;
 	display:block;
 }
+
 .content {
 	padding-left: 10px;
 	padding-top: 10px;
