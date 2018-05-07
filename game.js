@@ -155,6 +155,11 @@ function objectives() {
 	}
 }
 
+function reset() {
+	localStorage.clear();
+	location.reload();	
+}
+
 function autoselltoggle() {
 	autosell = !autosell;
 }
