@@ -20,7 +20,17 @@ h1, h2, h3, h4, h5, h6, p {
 	padding-left: 15px; /* adding the padding to the sides of the elements within the divs, instead of the divs themselves, gets rid of any box model math. A nested div with side padding can also be used as an alternate method. */
 }
 
+#objective-back {
+    width: 95%;
+	margin-left:2.5%;
+    background-color: grey;
+}
 
+#objective-bar {
+    width: 0%;
+    height: 25px;
+    background-color: green;
+}
 
 a img { /* this selector removes the default blue border displayed in some browsers around an image when it is surrounded by a link */
 	border: none;

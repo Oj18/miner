@@ -12,22 +12,31 @@
 <div class="container">
   <div class="sidebar1">
   	<div style="margin-left: 10px; margin-top: 5px;">
-    	<div id="money-count">$0</div>
     	<div id="material-count">0 materials</div>
+        <div id="refined-count">0 refined materials</div>
+        <div id="money-count">$0</div>
+        
         <br />
         <div id="worker-count">0 workers</div>
         <div id="shop-count">0 shops</div>
         
         <div style="position: absolute; bottom: 0; margin-bottom:10px;">
-        	<a href="https://oj18.github.io/miner/changelog.txt" target="_blank" >Changelog</a>
-            <div>Miner v0.3.1</div>
+        	<a href="https://oj18.github.io/miner/changelog.html" target="_blank">Changelog</a>
+            <div>Miner v0.4.0</div>
         </div>
     </div>
     <!-- end .sidebar1 --></div>
   <div class="content">
   	<div class="main">
-    	<button type="button" width="200px" id="mine" onclick="mine();">Mine</button> <br /> <br />
-       	
+    	<div style="text-decoration:underline">Manual</div>
+        
+    	<button type="button" width="200px" id="mine" onclick="mine();">Mine</button> <br />
+        <div id="refine-container">
+        	<br />
+       		<button type="button" width="200px" id="refine" onclick="refine();">Refine</button>
+        	<div id="refine-cost">Refinement costs: 10 materials</div> <br />
+        </div>
+        
         <div style="text-decoration:underline">Exchange</div>
     	<button type="button" width="300px" id="sellone" onclick="sellone();">Sell 1x</button> &nbsp; &nbsp; &nbsp;
         <button type="button" width="300px" id="sellten" onclick="sellten();">Sell 10x</button> &nbsp; &nbsp; &nbsp;
@@ -35,9 +44,9 @@
         
         <button type="button" width="300px" id="buyone" onclick="buyone();">Buy 1x</button> &nbsp; &nbsp; &nbsp;
         <button type="button" width="300px" id="buyten" onclick="buylten();">Buy 10x</button> &nbsp; &nbsp; &nbsp;
-        <button type="button" width="300px" id="buyall" onclick="buyall();">Buy All</button> <br />
+        <button type="button" width="300px" id="buyall" onclick="buyall();">Buy All</button> <br /> <br />
         <div id="exchange">Exchange rate: 1 material = $1</div>
-        <button type="button" width="300px" id="autosell" onclick="autosell();">Autosell OFF</button> <br /> <br />
+        <button type="button" width="300px" id="autosell" onclick="autoselltoggle();">Autosell OFF</button> <br /> <br />
         
         <div style="text-decoration:underline">Purchase / Build</div>
         
@@ -51,20 +60,34 @@
             <div id="shop-cost">Costs: $100</div>
         </div>
         
-        <div id="saved" style="position: fixed; bottom: 1%; right: 16%;">Saved</div>
+       	<div id="saved" style="position: fixed; right: 16%; bottom: 1%;">Saved</div>
+      	<button type="button" width="300px" id="save" onclick="save();" style="position: fixed; right: 30%; bottom: 1%;">Save</div>
+        <button type="button" width="300px" id="delete-save" onclick="localStorage.clear(); load();" style="position: fixed; right: 22%; bottom: 1%;">Delete save</div>
 	</div>
-    
-    <div class="upgrade-container" style="margin-left: 60vh; top:10px; position:fixed;">
-    	<div style="text-decoration:underline">Upgrade:</div>
-        <div class="upgrade">
-        	<a href="#" onclick="buyupgrade();" style="text-decoration:none; color:black;">
-    			<div class="upgrade" style="max-width:200px; background-color:lightgray; text-align:center">
+    <div class="upgrade-container" style="left: 35%; top:10px; position:fixed;">
+    	<div style="text-decoration:underline; margin-left:30%;">Upgrade:</div>
+    	<div class="upgrade">
+      		<a href="#" onclick="buyupgrade();" style="text-decoration:none; color:black;">
+    			<div style="width:200px; background-color:lightgray; text-align:center">
         			<h4 id="upgrade-title" style="margin-bottom:0px"></h4>
             		<div id="upgrade-cost"></div>
             		<br />
             		<div id="upgrade-desc"></div>
         		</div>
         	</a>
+    	</div>
+    </div>
+    
+    <div style="left: 55%; top:10px; position:fixed;">
+    	<div style="text-decoration:underline; margin-left:30%;">Objectives:</div>
+        <div class="objective-container" style="width:200px; background-color:lightgray; text-align:center">
+        	<h4 id="objective" style="margin-bottom:0px"></h4>
+            <div id="objective-back">
+            	<div id="objective-bar"></div>
+            </div>
+            <div id="objective-progress"></div>
+            <div id="objective-reward"></div>
+            <br />
         </div>
     </div>
    <!-- end .content --></div>
