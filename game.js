@@ -29,7 +29,7 @@ function update() {
 		$("#autosell").hide();
 	}
 	
-	if (autosell) sell(1);
+	if (autosell) sell(materials);
 	
 	if (Math.round(Math.random()) == 0) {
 		exchange += Math.random() / 100000000000;
@@ -201,6 +201,8 @@ function objectivefade() {
         filter: "",
          zoom: ""
   	});
+	
+	document.getElementById("objective-bar").style.width = "0%"
 }
 
 function reset() {
