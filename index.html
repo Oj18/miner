@@ -4,6 +4,10 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Miner</title>
 	<link rel="stylesheet" href="main.css">
+    
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+    
     <script type="text/javascript" src="game.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
@@ -22,7 +26,7 @@
         
         <div style="position: absolute; bottom: 0; margin-bottom:10px;">
         	<a href="https://oj18.github.io/miner/changelog.html" target="_blank">Changelog</a>
-            <div>Miner v0.4.1</div>
+            <div>Miner v0.4.2</div>
         </div>
     </div>
     <!-- end .sidebar1 --></div>
@@ -79,11 +83,11 @@
     </div>
     
     <div style="left: 55%; top:10px; position:fixed;">
-    	<div style="text-decoration:underline; margin-left:30%;">Objectives:</div>
+    	<div id="objective-header" style="text-decoration:underline; margin-left:30%;">Objectives:</div>
         <div class="objective-container" style="width:200px; background-color:lightgray; text-align:center">
         	<h4 id="objective" style="margin-bottom:0px"></h4>
             <div id="objective-back">
-            	<div id="objective-bar"></div>
+            	<div id="objective-bar" style="width: 0%"></div>
             </div>
             <div id="objective-progress"></div>
             <div id="objective-reward"></div>

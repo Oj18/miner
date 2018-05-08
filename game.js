@@ -14,6 +14,7 @@ var canrefine = false;
 var refined = 0;
 var refinecost = 10;
 var objective = 0;
+var fadewait = false;
 
 function update() {
 	if (hasautosell) {
@@ -28,7 +29,7 @@ function update() {
 		$("#autosell").hide();
 	}
 	
-	if (autosell) sell(materials);
+	if (autosell) sell(1);
 	
 	if (Math.round(Math.random()) == 0) {
 		exchange += Math.random() / 100000000000;
@@ -39,7 +40,7 @@ function update() {
 	document.getElementById("exchange").innerHTML = "Exchange rate: 1 material = $" + exchange.toFixed(10);
 	
 	if (materials == 1) {
-		document.getElementById("material-count").innerHTML = "0 material";
+		document.getElementById("material-count").innerHTML = "1 material";
 	} else {
 		document.getElementById("material-count").innerHTML = materials + " materials";
 	}
@@ -93,7 +94,7 @@ function update() {
 		document.getElementById("shop-count").innerHTML = "1 shop";
 		$("#shop-count").fadeIn("slow");
 	} else {
-		if (shopcount != 1) {
+		if (shopcount != 0) {
 			document.getElementById("shop-count").innerHTML = shopcount + " shops";
 			$("#shop-count").fadeIn("slow");
 		} else {
@@ -113,46 +114,93 @@ function update() {
 }
 
 function objectives() {
+	$("#objective-header").attr("style", "text-decoration:underline; margin-left:30%;");
+	
 	if (objective == 0) {
 		document.getElementById("objective").innerHTML = "Get 10 materials";
 		document.getElementById("objective-progress").innerHTML = materials + " / 10";
-		document.getElementById("objective-bar").style.width = ((materials / 10) * 100) + "%";
-		document.getElementById("objective-reward").innerHTML = "Reward: $30";
+		document.getElementById("objective-reward").innerHTML = "Reward: $50";
 		
-		if (materials >= 10) {
+		var max = ((materials / 10) * 100);
+		
+		var next = parseFloat(document.getElementById("objective-bar").style.width) + 0.1;
+		
+		if (next <= max) {
+			document.getElementById("objective-bar").style.width = next.toString() + "%";
+		}
+		
+		if (next == 100) {
 			objective++;
-			money += 30;
+			money += 50;
+			
+			$(".objective-container").fadeOut("slow", objectivefade);
+			fadewait = true;
 		}
 	}
 	
 	if (objective == 1) {
-		document.getElementById("objective").innerHTML = "Hire 5 workers";
-		document.getElementById("objective-progress").innerHTML = workercount + " / 5";
-		document.getElementById("objective-bar").style.width = ((workercount / 5) * 100) + "%";
-		document.getElementById("objective-reward").innerHTML = "Reward: $50";
+		if (!fadewait) {
+			$(".objective-container").fadeIn("slow");
 		
-		if (materials >= 10) {
-			objective++;
-			money += 50;
+			document.getElementById("objective").innerHTML = "Hire 5 workers";
+			document.getElementById("objective-progress").innerHTML = workercount + " / 5";
+			document.getElementById("objective-reward").innerHTML = "Reward: $100";
+			
+			var max = ((workercount / 5) * 100);
+		
+			var next = parseFloat(document.getElementById("objective-bar").style.width) + 0.1;
+		
+			if (next <= max) {
+				document.getElementById("objective-bar").style.width = next.toString() + "%";
+			}
+		
+			if (next == 100) {
+				objective++;
+				money += 100;
+				
+				$(".objective-container").fadeOut("slow");
+				fadewait = true;
+			}
 		}
 	}
 	
 	if (objective == 2) {
-		document.getElementById("objective").innerHTML = "Build 1 shop";
-		document.getElementById("objective-progress").innerHTML = shopcount + " / 1";
-		document.getElementById("objective-bar").style.width = ((shopcount / 1) * 100) + "%";
-		document.getElementById("objective-reward").innerHTML = "Reward: 3 workers";
-		
-		if (materials >= 10) {
-			objective++;
+		if (!fadewait) {
+			$(".objective-container").fadeIn("slow");
 			
-			addworker(); addworker(); addworker();
+			document.getElementById("objective").innerHTML = "Build 1 shop";
+			document.getElementById("objective-progress").innerHTML = shopcount + " / 1";
+			document.getElementById("objective-reward").innerHTML = "Reward: 3 workers";
+			
+			var max = ((shopcount / 1) * 100);
+		
+			var next = parseFloat(document.getElementById("objective-bar").style.width) + 0.1;
+		
+			if (next <= max) {
+				document.getElementById("objective-bar").style.width = next.toString() + "%";
+			}
+		
+			if (next == 100) {
+				objective++;
+			
+				addworker(); addworker(); addworker();
+				
+				$(".objective-container").fadeOut("slow");
+				fadewait = true;
+			}
 		}
 	}
+}
+
+function objectivefade() {
+	fadewait = false;
 	
-	if (objective == 3) {
-		document.getElementsByClassName("objective-container").item(0).hidden = true;
-	}
+	$(".objective-container").css({
+    	display: "",
+    	opacity: "",
+        filter: "",
+         zoom: ""
+  	});
 }
 
 function reset() {
