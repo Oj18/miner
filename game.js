@@ -368,10 +368,6 @@ var getHTML = function ( url, callback ) {
 
 function run() {
 	load();
-	
-	getHTML('changelog.html', function (response) {
-		document.getElementById("latest").innerHTML = response.getElementsByTagName("ul").item(0).innerHTML;
-	});
 
 	upgrades();
 	
