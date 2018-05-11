@@ -408,7 +408,7 @@ function load() {
 	if (localStorage.getItem('objective')) objective = JSON.parse(localStorage.getItem('objective'));
 	if (localStorage.getItem('minecartallowed')) minecartallowed = JSON.parse(localStorage.getItem('minecartallowed'));
 	if (localStorage.getItem('minecartcount')) minecartcount = JSON.parse(localStorage.getItem('minecartcount'));
-	if (localStorage.getItem('minecartcost')) objective = JSON.parse(localStorage.getItem('minecartcost'));
+	if (localStorage.getItem('minecartcost')) minecartcost = JSON.parse(localStorage.getItem('minecartcost'));
 }
 
 function save() {
