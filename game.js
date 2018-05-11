@@ -15,6 +15,10 @@ var refined = 0;
 var refinecost = 10;
 var objective = 0;
 var fadewait = false;
+var minecartallowed = false;
+var minecartcount = 0;
+var minecartcost = 100;
+var minecartadd = 10;
 
 function update() {
 	if (hasautosell) {
@@ -42,12 +46,12 @@ function update() {
 	if (materials == 1) {
 		document.getElementById("material-count").innerHTML = "1 material";
 	} else {
-		document.getElementById("material-count").innerHTML = materials + " materials";
+		document.getElementById("material-count").innerHTML = materials.toFixed(2) + " materials";
 	}
 	
 	document.getElementById("money-count").innerHTML = "$" + money.toFixed(2);
 	document.getElementById("worker-cost").innerHTML = "Costs: $" + workercost;
-	
+		
 	document.getElementById("refine-cost").innerHTML = "Refinement: Costs " + refinecost + " materials";
 	
 	if (workercount == 1) {
@@ -70,6 +74,12 @@ function update() {
 		document.getElementById("shop-container").hidden = true;
 	}
 	
+	if (minecartallowed) {
+		$("#minecart-container").fadeIn("slow");
+	} else {
+		document.getElementById("minecart-container").hidden = true;
+	}
+	
 	if (canrefine) {
 		$("#refine-container").fadeIn("slow");
 	} else {
@@ -88,7 +98,9 @@ function update() {
 		}
 	}
 	
-	document.getElementById("shop-cost").innerHTML = "$" + (shopcost / 2) + " " + (shopcost / 2) + " materials";
+	document.getElementById("shop-cost").innerHTML = "Costs: $" + (shopcost / 2) + " + " + (shopcost / 2) + " materials";
+	
+	document.getElementById("minecart-cost").innerHTML = "Costs: " + minecartcost + " refined materials";
 	
 	if (shopcount == 1) {
 		document.getElementById("shop-count").innerHTML = "1 shop";
@@ -102,6 +114,19 @@ function update() {
 		}
 	}
 	
+	if (minecartcount == 1) {
+		document.getElementById("minecart-count").innerHTML = "1 minecart";
+		$("#minecart-count").fadeIn("slow");
+	} else {
+		if (shopcount != 0) {
+			document.getElementById("minecart-count").innerHTML = minecartcount + " minecarts";
+			$("#minecart").fadeIn("slow");
+		} else {
+			document.getElementById("minecart-count").hidden = true;
+		}
+	}
+	
+	
 	if (workeradd == 1) {
 		document.getElementById("worker-desc").innerHTML = "Mines 1 material per second";	
 	} else {
@@ -109,8 +134,6 @@ function update() {
 	}
 	
 	objectives();
-	
-	setUpgradeText();
 }
 
 function objectives() {
@@ -123,7 +146,7 @@ function objectives() {
 		
 		var max = ((materials / 10) * 100);
 		
-		var next = parseFloat(document.getElementById("objective-bar").style.width) + 0.1;
+		var next = parseFloat(document.getElementById("objective-bar").style.width) + 0.2;
 		
 		if (next <= max) {
 			document.getElementById("objective-bar").style.width = next.toString() + "%";
@@ -148,7 +171,7 @@ function objectives() {
 			
 			var max = ((workercount / 5) * 100);
 		
-			var next = parseFloat(document.getElementById("objective-bar").style.width) + 0.1;
+			var next = parseFloat(document.getElementById("objective-bar").style.width) + 0.2;
 		
 			if (next <= max) {
 				document.getElementById("objective-bar").style.width = next.toString() + "%";
@@ -174,7 +197,7 @@ function objectives() {
 			
 			var max = ((shopcount / 1) * 100);
 		
-			var next = parseFloat(document.getElementById("objective-bar").style.width) + 0.1;
+			var next = parseFloat(document.getElementById("objective-bar").style.width) + 0.2;
 		
 			if (next <= max) {
 				document.getElementById("objective-bar").style.width = next.toString() + "%";
@@ -188,6 +211,66 @@ function objectives() {
 				$(".objective-container").fadeOut("slow", objectivefade);
 				fadewait = true;
 			}
+		}
+	}
+	
+	if (objective == 3) {
+		if (!fadewait) {
+			$(".objective-container").fadeIn("slow");
+			
+			document.getElementById("objective").innerHTML = "Get 100 refined materials";
+			document.getElementById("objective-progress").innerHTML = refined + " / 100";
+			document.getElementById("objective-reward").innerHTML = "Reward: 1 shop";
+			
+			var max = ((refined / 100) * 100);
+		
+			var next = parseFloat(document.getElementById("objective-bar").style.width) + 0.2;
+		
+			if (next <= max) {
+				document.getElementById("objective-bar").style.width = next.toString() + "%";
+			}
+		
+			if (next == 100) {
+				objective++;
+			
+				addshop();
+				
+				$(".objective-container").fadeOut("slow", objectivefade);
+				fadewait = true;
+			}
+		}
+	}
+	
+	if (objective == 4) {
+		if (!fadewait) {
+			$(".objective-container").fadeIn("slow");
+			
+			document.getElementById("objective").innerHTML = "Get 5 minecarts";
+			document.getElementById("objective-progress").innerHTML = minecartcount + " / 5";
+			document.getElementById("objective-reward").innerHTML = "Reward: $5000";
+			
+			var max = ((minecart / 5) * 100);
+		
+			var next = parseFloat(document.getElementById("objective-bar").style.width) + 0.2;
+		
+			if (next <= max) {
+				document.getElementById("objective-bar").style.width = next.toString() + "%";
+			}
+		
+			if (next == 100) {
+				objective++;
+			
+				money += 5000;
+				
+				$(".objective-container").fadeOut("slow", objectivefade);
+				fadewait = true;
+			}
+		}
+	}
+	
+	if (objective == 5) {
+		if (!fadewait) {
+			$(".objective-container").hide();
 		}
 	}
 }
@@ -214,7 +297,9 @@ function autoselltoggle() {
 	autosell = !autosell;
 }
 
-function setUpgradeText() {
+function upgrades() {
+	$("#upgrade-header").attr("style", "text-decoration:underline; margin-left:30%;");
+	
 	if (upgrade == 0) {
 		document.getElementById("upgrade-title").innerHTML = "Auto Seller";
 		document.getElementById("upgrade-cost").innerHTML = "Costs: $15";
@@ -252,6 +337,12 @@ function setUpgradeText() {
 	}
 	
 	if (upgrade == 6) {
+		document.getElementById("upgrade-title").innerHTML = "Minecarts";
+		document.getElementById("upgrade-cost").innerHTML = "Costs: $10000";
+		document.getElementById("upgrade-desc").innerHTML = "Allows you to build minecarts";
+	}
+	
+	if (upgrade == 7) {
 		//not added yet
 		//make upgrade panel disappear
 		document.getElementsByClassName("upgrade").item(0).hidden = true;	
@@ -259,25 +350,19 @@ function setUpgradeText() {
 }
 
 var getHTML = function ( url, callback ) {
-
-	// Feature detection
 	if ( !window.XMLHttpRequest ) return;
-
-	// Create new request
+	
 	var xhr = new XMLHttpRequest();
 
-	// Setup callback
 	xhr.onload = function() {
 		if ( callback && typeof( callback ) === 'function' ) {
 			callback( this.responseXML );
 		}
 	}
 
-	// Get the HTML
 	xhr.open( 'GET', url );
 	xhr.responseType = 'document';
-	xhr.send();
-
+	xhr.send();	
 };
 
 
@@ -288,6 +373,8 @@ function run() {
 		document.getElementById("latest").innerHTML = response.getElementsByTagName("ul").item(0).innerHTML;
 	});
 
+	upgrades();
+	
 	update();
 	var interval = setInterval(function(){
 		update();
@@ -323,6 +410,9 @@ function load() {
 	if (localStorage.getItem('canrefine')) canrefine = JSON.parse(localStorage.getItem('canrefine'));
 	if (localStorage.getItem('refinecost')) refinecost = JSON.parse(localStorage.getItem('refinecost'));
 	if (localStorage.getItem('objective')) objective = JSON.parse(localStorage.getItem('objective'));
+	if (localStorage.getItem('minecartallowed')) minecartallowed = JSON.parse(localStorage.getItem('minecartallowed'));
+	if (localStorage.getItem('minecartcount')) minecartcount = JSON.parse(localStorage.getItem('minecartcount'));
+	if (localStorage.getItem('minecartcost')) objective = JSON.parse(localStorage.getItem('minecartcost'));
 }
 
 function save() {
@@ -342,13 +432,15 @@ function save() {
 	localStorage.setItem('canrefine', JSON.stringify(canrefine));
 	localStorage.setItem('refinecost', JSON.stringify(refinecost));
 	localStorage.setItem('objective', JSON.stringify(objective));
-
-
+	localStorage.setItem('minecartallowed', JSON.stringify(minecartallowed));
+	localStorage.setItem('minecartcount', JSON.stringify(minecartcount));
+	localStorage.setItem('minecartcost', JSON.stringify(minecartcost));
+	
 	$("#saved").fadeIn("slow", function(){ setTimeout(function(){ $("#saved").fadeOut("slow");}, 500); });
 }
 
 function mine() {
-	materials++;	
+	materials++;
 }
 
 
@@ -420,12 +512,34 @@ function shop() {
 		money -= (shopcost / 2);
 		materials -= (shopcost / 2);
 		
-		shopcost *= 2;
-			
-		shopcount++;
-		
-		exchange += 0.1;
+		addshop();
 	}
+}
+
+function addshop() {
+	shopcost += 200;
+			
+	shopcount++;
+	
+	exchange += 0.1;
+}
+
+function minecart() {
+	if (refined >= minecartcost) {
+		refined -= minecartcost;
+		
+		addminecart();	
+	}
+}
+
+function addminecart() {
+	minecartcount++;
+	
+	minecartcost *= 2;
+	
+	var interval = setInterval(function(){
+		materials += minecartadd;
+	}, 10000);
 }
 
 function buyupgrade() {
@@ -491,5 +605,32 @@ function buyupgrade() {
 		}
 	}
 	
-	if (enough) upgrade++;
+	if (upgrade == 6) {
+		if (money >= 10000) {
+			money -= 10000;
+			
+			minecartallowed = true;
+			
+			enough = true;	
+		}
+	}
+	
+	if (enough) {
+		upgrade++;
+		
+		$(".upgrade").fadeOut("slow", upgradefade);
+	}
+}
+
+function upgradefade() {
+	$(".upgrade").css({
+    	display: "",
+    	opacity: "",
+        filter: "",
+         zoom: ""
+  	});
+	
+	upgrades();
+	
+	if (!document.getElementsByClassName("upgrade").item(0).hidden) { $(".upgrade").fadeIn("slow"); }
 }

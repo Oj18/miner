@@ -23,12 +23,13 @@
         <br />
         <div id="worker-count">0 workers</div>
         <div id="shop-count">0 shops</div>
+        <div id="minecart-count">0 minecarts</div>
         
         <div style="position: absolute; bottom: 0; margin-bottom:10px;">
         	<a href="changelog.html" target="_blank">Changelog</a> <br />
             Latest changes:
             <div id="latest"></div> <br />
-            <div>Miner v0.4.4 Test</div>
+            <div>Miner v0.5.0</div>
         </div>
     </div>
     <!-- end .sidebar1 --></div>
@@ -63,15 +64,21 @@
         <div id="shop-container">
         	<button type="button" width="300px" id="shop" onclick="shop();">Shop</button>
             <div id="shop-desc">Increases conversion rate for materials (by 0.1)</div>
-            <div id="shop-cost">Costs: $100</div>
+            <div id="shop-cost">Costs: $100 + 100 materials</div>
         </div>
         
-       	<div id="saved" style="position: fixed; right: 16%; bottom: 1%;">Saved</div>
-      	<button type="button" width="300px" id="save" onclick="save();" style="position: fixed; right: 30%; bottom: 1%;">Save</div>
-        <button type="button" width="300px" id="delete-save" onclick="reset();" style="position: fixed; right: 22%; bottom: 1%;">Reset save</div>
+        <div id="minecart-container">
+        	<button type="button" width="300px" id="minecart" onclick="minecart();">Minecart</button>
+            <div id="minecart-desc">Mines 100 materials per 10 seconds</div>
+            <div id="minecart-cost">Costs: 100 refined materials</div>
+        </div>
+        
+       	<div id="saved" style="position: fixed; right: 21%; bottom: 1%;">Saved</div>
+      	<button type="button" width="300px" id="save" onclick="save();" style="position: fixed; right: 35%; bottom: 1%;">Save</div>
+        <button type="button" width="300px" id="delete-save" onclick="reset();" style="position: fixed; right: 27%; bottom: 1%;">Reset save</div>
 	</div>
     <div class="upgrade-container" style="left: 35%; top:10px; position:fixed;">
-    	<div style="text-decoration:underline; margin-left:30%;">Upgrade:</div>
+    	<div id="upgrade-header" style="text-decoration:underline; margin-left:30%;">Upgrade:</div>
     	<div class="upgrade">
       		<a href="#" onclick="buyupgrade();" style="text-decoration:none; color:black;">
     			<div style="width:200px; background-color:lightgray; text-align:center">
