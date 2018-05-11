@@ -258,11 +258,34 @@ function setUpgradeText() {
 	}
 }
 
+var getHTML = function ( url, callback ) {
+
+	// Feature detection
+	if ( !window.XMLHttpRequest ) return;
+
+	// Create new request
+	var xhr = new XMLHttpRequest();
+
+	// Setup callback
+	xhr.onload = function() {
+		if ( callback && typeof( callback ) === 'function' ) {
+			callback( this.responseXML );
+		}
+	}
+
+	// Get the HTML
+	xhr.open( 'GET', url );
+	xhr.responseType = 'document';
+	xhr.send();
+
+};
+
+
 function run() {
 	load();
 	
-	$.get('changelog.html', null, function(text){
-    	alert($(text).get("h4").html());
+	getHTML( '/changelog', function (response) {
+		document.getElementById("latest").innerHTML = response.getElementsByTagName("h4").innerHTML;
 	});
 
 	update();
