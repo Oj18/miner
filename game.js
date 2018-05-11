@@ -158,7 +158,7 @@ function objectives() {
 				objective++;
 				money += 100;
 				
-				$(".objective-container").fadeOut("slow");
+				$(".objective-container").fadeOut("slow", objectivefade);
 				fadewait = true;
 			}
 		}
@@ -185,7 +185,7 @@ function objectives() {
 			
 				addworker(); addworker(); addworker();
 				
-				$(".objective-container").fadeOut("slow");
+				$(".objective-container").fadeOut("slow", objectivefade);
 				fadewait = true;
 			}
 		}
@@ -261,6 +261,10 @@ function setUpgradeText() {
 function run() {
 	load();
 	
+	$.get('changelog.html', null, function(text){
+    	alert($(text).get("h4").innerHTML);
+	});
+
 	update();
 	var interval = setInterval(function(){
 		update();
@@ -324,21 +328,43 @@ function mine() {
 	materials++;	
 }
 
+
 function sell(amount) {
-	money += amount * exchange;
-	materials -= amount;
+	if (materials >= amount) {
+		money += amount * exchange;
+		materials -= amount;
+	}
+}
+
+function buy(amount) {
+	if (money >= amount) {
+		materials += amount * exchange;
+		money -= amount;
+	}
+}
+
+function sellone() {
+	sell(1);
+}
+
+function sellten() {
+	sell(10);
 }
 
 function sellall() {
 	sell(materials);
 }
 
-function sellone() {
-	if (materials >= 1) sell(1);
+function buyone() {
+	buy(1);
 }
 
-function sellten() {
-	if (materials >= 10) sell(10);
+function buyten() {
+	buy(10);
+}
+
+function buyall() {
+	buy(money);
 }
 
 function refine() {
