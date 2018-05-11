@@ -262,7 +262,7 @@ function run() {
 	load();
 	
 	$.get('changelog.html', null, function(text){
-    	alert($(text).get("h4").innerHTML);
+    	alert($(text).get("h4").html());
 	});
 
 	update();
