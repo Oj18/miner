@@ -24,10 +24,12 @@
         <div id="worker-count">0 workers</div>
         <div id="shop-count">0 shops</div>
         <div id="minecart-count">0 minecarts</div>
+        <div id="refinery-count">0 refineries</div>
         
         <div style="position: absolute; bottom: 0; margin-bottom:10px;">
+        	<a href="https://goo.gl/forms/KximrCuoJBBCJlJH3">Feedback</a> <br />
         	<a href="changelog.html" target="_blank">Changelog</a> <br />
-            <div>Miner v0.5.2</div>
+            <div>Miner v0.5.3</div>
         </div>
     </div>
     <!-- end .sidebar1 --></div>
@@ -36,9 +38,11 @@
     	<div style="text-decoration:underline">Manual</div>
         
     	<button type="button" width="200px" id="mine" onclick="mine();">Mine</button> <br />
+        
         <div id="refine-container">
         	<br />
-       		<button type="button" width="200px" id="refine" onclick="refine();">Refine</button>
+        	<button type="button" width="200px" id="refine" onclick="refine();">Refine</button>
+        	<br />
         	<div id="refine-cost">Refinement costs: 10 materials</div>
         </div> <br />
         
@@ -57,18 +61,24 @@
         
         <button type="button" width="300px" id="worker" onclick="worker();">Worker</button>
         <div id="worker-desc">Mines 1 material per second</div>
-        <div id="worker-cost">Costs: $5</div> <br /> <br />
+        <div id="worker-cost">Costs: $5</div> <br />
         
         <div id="shop-container">
         	<button type="button" width="300px" id="shop" onclick="shop();">Shop</button>
             <div id="shop-desc">Increases conversion rate for materials (by 0.1)</div>
             <div id="shop-cost">Costs: $100 + 100 materials</div>
-        </div>
+        </div> <br />
         
         <div id="minecart-container">
         	<button type="button" width="300px" id="minecart" onclick="minecart();">Minecart</button>
             <div id="minecart-desc">Mines 100 materials per 10 seconds</div>
             <div id="minecart-cost">Costs: 100 refined materials</div>
+        </div> <br />
+        
+        <div id="refinery-container">
+        	<button type="button" width="300px" id="refinery" onclick="refinery();">Refinery</button>
+            <div id="refinery-desc">Refines once per second (uses your materials)</div>
+            <div id="refinery-cost">Costs: 100 refined materials</div>
         </div>
         
        	<div id="saved" style="position: fixed; right: 21%; bottom: 1%;">Saved</div>

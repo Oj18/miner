@@ -2,6 +2,7 @@
 /* CSS Document */
 
 body {
+	-webkit-backface-visibility: hidden;
 	font: 100%/1.4 Verdana, Arial, Helvetica, sans-serif;
 	background-color: black;
 	margin: 0;
@@ -55,6 +56,38 @@ a:hover, a:active, a:focus { /* this group of selectors will give a keyboard nav
 	margin: 0 auto; /* the auto value on the sides, coupled with the width, centers the layout. It is not needed if you set the .container's width to 100%. */
 	overflow: hidden; /* this declaration makes the .container clear all floated columns within it. */
 	height: 100vh;
+}
+
+.research {
+	-webkit-backface-visibility: hidden;
+}
+
+.upgrade {
+	-webkit-backface-visibility: hidden;
+}
+
+#shop-container {
+	-webkit-backface-visibility: hidden;
+}
+
+#minecart-container {
+	-webkit-backface-visibility: hidden;
+}
+
+#saved {
+	-webkit-backface-visibility: hidden;
+}
+
+#worker-count {
+	-webkit-backface-visibility: hidden;
+}
+
+#shop-count {
+	-webkit-backface-visibility: hidden;
+}
+
+#minecart-count {
+	-webkit-backface-visibility: hidden;
 }
 
 /* ~~ These are the columns for the layout. ~~ 

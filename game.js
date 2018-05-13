@@ -19,6 +19,9 @@ var minecartallowed = false;
 var minecartcount = 0;
 var minecartcost = 100;
 var minecartadd = 10;
+var refineryallowed = false;
+var refinerycount = 0;
+var refinerycost = 100;
 
 function update() {
 	if (hasautosell) {
@@ -32,8 +35,6 @@ function update() {
 	} else {
 		$("#autosell").hide();
 	}
-	
-	if (autosell) sell(materials);
 	
 	if (Math.round(Math.random()) == 0) {
 		exchange += Math.random() / 100000000000;
@@ -74,6 +75,12 @@ function update() {
 		document.getElementById("shop-container").hidden = true;
 	}
 	
+	if (refineryallowed) {
+		$("#refinery-container").fadeIn("slow");
+	} else {
+		document.getElementById("refinery-container").hidden = true;
+	}
+	
 	if (minecartallowed) {
 		$("#minecart-container").fadeIn("slow");
 	} else {
@@ -102,6 +109,8 @@ function update() {
 	
 	document.getElementById("minecart-cost").innerHTML = "Costs: " + minecartcost + " refined materials";
 	
+	document.getElementById("refinery-cost").innerHTML = "Costs: " + refinerycost + " refined materials";
+	
 	if (shopcount == 1) {
 		document.getElementById("shop-count").innerHTML = "1 shop";
 		$("#shop-count").fadeIn("slow");
@@ -114,11 +123,23 @@ function update() {
 		}
 	}
 	
+	if (refinerycount == 1) {
+		document.getElementById("refinery-count").innerHTML = "1 refinery";
+		$("#refinery-count").fadeIn("slow");
+	} else {
+		if (refinerycount != 0) {
+			document.getElementById("refinery-count").innerHTML = shopcount + " refineries";
+			$("#refinery-count").fadeIn("slow");
+		} else {
+			document.getElementById("refinery-count").hidden = true;
+		}
+	}
+	
 	if (minecartcount == 1) {
 		document.getElementById("minecart-count").innerHTML = "1 minecart";
 		$("#minecart-count").fadeIn("slow");
 	} else {
-		if (shopcount != 0) {
+		if (minecartcount != 0) {
 			document.getElementById("minecart-count").innerHTML = minecartcount + " minecarts";
 			$("#minecart").fadeIn("slow");
 		} else {
@@ -150,7 +171,7 @@ function objectives() {
 		
 		if (next <= max) {
 			document.getElementById("objective-bar").style.width = next.toString() + "%";
-		}
+			}
 		
 		if (next == 100) {
 			objective++;
@@ -269,9 +290,7 @@ function objectives() {
 	}
 	
 	if (objective == 5) {
-		if (!fadewait) {
-			$(".objective-container").hide();
-		}
+		$(".objective-container").hide()
 	}
 }
 
@@ -303,11 +322,11 @@ function upgrades() {
 	if (upgrade == 0) {
 		document.getElementById("upgrade-title").innerHTML = "Auto Seller";
 		document.getElementById("upgrade-cost").innerHTML = "Costs: $15";
-		document.getElementById("upgrade-desc").innerHTML = "Adds a switch to automaticly sell materials (toggleable)";
+		document.getElementById("upgrade-desc").innerHTML = "Adds a switch to automaticly sell income (toggleable)";
 	}
 	
 	if (upgrade == 1) {
-		document.getElementById("upgrade-title").innerHTML = "Hard hats";
+		document.getElementById("upgrade-title").innerHTML = "Hard Hats";
 		document.getElementById("upgrade-cost").innerHTML = "Costs: $100";
 		document.getElementById("upgrade-desc").innerHTML = "Hard hats for your workers to wear... +1 material per second for workers";
 	}
@@ -343,8 +362,12 @@ function upgrades() {
 	}
 	
 	if (upgrade == 7) {
-		//not added yet
-		//make upgrade panel disappear
+		document.getElementById("upgrade-title").innerHTML = "Refineries";
+		document.getElementById("upgrade-cost").innerHTML = "Costs: $15000";
+		document.getElementById("upgrade-desc").innerHTML = "Lets you build refineries that refine materials every second";
+	}
+	
+	if (upgrade == 8) {
 		document.getElementsByClassName("upgrade").item(0).hidden = true;	
 	}
 }
@@ -378,12 +401,6 @@ function run() {
 	
 	$("#saved").hide();
 	
-	for (var i = 0; i < workercount; i++) {
-		var interval = setInterval(function(){
-			materials += workeradd;
-		}, 1000);
-	}
-	
 	var interval2 = setInterval(function(){
 		save();
 	}, 5000);
@@ -409,6 +426,32 @@ function load() {
 	if (localStorage.getItem('minecartallowed')) minecartallowed = JSON.parse(localStorage.getItem('minecartallowed'));
 	if (localStorage.getItem('minecartcount')) minecartcount = JSON.parse(localStorage.getItem('minecartcount'));
 	if (localStorage.getItem('minecartcost')) minecartcost = JSON.parse(localStorage.getItem('minecartcost'));
+	if (localStorage.getItem('refineryallowed')) refineryallowed = JSON.parse(localStorage.getItem('refineryallowed'));
+	if (localStorage.getItem('refinerycount')) refinerycount = JSON.parse(localStorage.getItem('refinerycount'));
+	if (localStorage.getItem('refinerycost')) refinerycost = JSON.parse(localStorage.getItem('refinerycost'));
+	
+	
+	for (var i = 0; i < workercount; i++) {
+		var interval = setInterval(function(){
+			materials += workeradd;
+			
+			if (autosell) { sell(workeradd); }
+		}, 1000);
+	}
+	
+	for (var i = 0; i < minecartcount; i++) {
+		var interval = setInterval(function(){
+			materials += minecartadd;
+			
+			if (autosell) { sell(minecartadd); }
+		}, 10000);
+	}
+	
+	for (var i = 0; i < refinerycount; i++) {
+		var interval = setInterval(function(){
+			refine();
+		}, 1000);
+	}
 }
 
 function save() {
@@ -431,6 +474,9 @@ function save() {
 	localStorage.setItem('minecartallowed', JSON.stringify(minecartallowed));
 	localStorage.setItem('minecartcount', JSON.stringify(minecartcount));
 	localStorage.setItem('minecartcost', JSON.stringify(minecartcost));
+	localStorage.setItem('refineryallowed', JSON.stringify(refineryallowed));
+	localStorage.setItem('refinerycount', JSON.stringify(refinerycount));
+	localStorage.setItem('refinerycost', JSON.stringify(refinerycost));
 	
 	$("#saved").fadeIn("slow", function(){ setTimeout(function(){ $("#saved").fadeOut("slow");}, 500); });
 }
@@ -442,15 +488,15 @@ function mine() {
 
 function sell(amount) {
 	if (materials >= amount) {
-		money += amount * exchange;
 		materials -= amount;
+		money += amount * exchange;
 	}
 }
 
 function buy(amount) {
 	if (money >= amount) {
-		materials += amount * exchange;
 		money -= amount;
+		materials += amount * exchange;
 	}
 }
 
@@ -494,12 +540,15 @@ function worker() {
 }
 
 function addworker() {
-	workercost *= 2;
-		
+	workercost *= 1.3;
+	workercost = workercost.toFixed(0);
+	
 	workercount++;
 		
 	var interval = setInterval(function(){
 		materials += workeradd;
+		
+		if (autosell) { sell(workeradd); }
 	}, 1000);
 }
 
@@ -520,6 +569,25 @@ function addshop() {
 	exchange += 0.1;
 }
 
+function refinery() {
+	if (refined >= refinerycost) {
+		refined -= refinerycost;
+		
+		addrefinery();	
+	}
+}
+
+function addrefinery() {
+	refinerycount++;
+	
+	refinerycost *= 1.3;
+	refinerycost = refinerycost.toFixed();
+	
+	var interval = setInterval(function(){
+		refine();
+	}, 1000);
+}
+
 function minecart() {
 	if (refined >= minecartcost) {
 		refined -= minecartcost;
@@ -531,10 +599,13 @@ function minecart() {
 function addminecart() {
 	minecartcount++;
 	
-	minecartcost *= 2;
+	minecartcost *= 1.3;
+	minecartcost = minecartcost.toFixed();
 	
 	var interval = setInterval(function(){
 		materials += minecartadd;
+		
+		if (autosell) { sell(minecartadd); }
 	}, 10000);
 }
 
@@ -606,6 +677,16 @@ function buyupgrade() {
 			money -= 10000;
 			
 			minecartallowed = true;
+			
+			enough = true;	
+		}
+	}
+	
+	if (upgrade == 7) {
+		if (money >= 15000) {
+			money -= 15000;
+			
+			refineryallowed = true;
 			
 			enough = true;	
 		}
