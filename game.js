@@ -22,6 +22,7 @@ var minecartadd = 10;
 var refineryallowed = false;
 var refinerycount = 0;
 var refinerycost = 100;
+var last = 0;
 
 function update() {
 	if (hasautosell) {
@@ -47,10 +48,10 @@ function update() {
 	if (materials == 1) {
 		document.getElementById("material-count").innerHTML = "1 material";
 	} else {
-		document.getElementById("material-count").innerHTML = materials.toFixed(2) + " materials";
+		document.getElementById("material-count").innerHTML = (Math.floor(materials * 100) / 100) + " materials";
 	}
 	
-	document.getElementById("money-count").innerHTML = "$" + money.toFixed(2);
+	document.getElementById("money-count").innerHTML = "$" + (Math.floor(money * 100) / 100);
 	document.getElementById("worker-cost").innerHTML = "Costs: $" + workercost;
 		
 	document.getElementById("refine-cost").innerHTML = "Refinement: Costs " + refinecost + " materials";
@@ -128,7 +129,7 @@ function update() {
 		$("#refinery-count").fadeIn("slow");
 	} else {
 		if (refinerycount != 0) {
-			document.getElementById("refinery-count").innerHTML = shopcount + " refineries";
+			document.getElementById("refinery-count").innerHTML = refinerycount + " refineries";
 			$("#refinery-count").fadeIn("slow");
 		} else {
 			document.getElementById("refinery-count").hidden = true;
@@ -153,6 +154,14 @@ function update() {
 	} else {
 		document.getElementById("worker-desc").innerHTML = "Mines " + workeradd + " materials per second";
 	}
+	
+	var per = 0;
+	
+	for (var i = 0; i < workercount; i++) { per += workeradd; }
+	for (var i = 0; i < minecartcount; i++) { per += minecartadd / 10; }
+	for (var i = 0; i < refinerycount; i++) { per -= 1; }
+	
+	document.getElementById("materials-per-second").innerHTML = per + " materials per second";
 	
 	objectives();
 }
@@ -508,6 +517,10 @@ function sellten() {
 	sell(10);
 }
 
+function sellhundred() {
+	sell(100);	
+}
+
 function sellall() {
 	sell(materials);
 }
@@ -518,6 +531,10 @@ function buyone() {
 
 function buyten() {
 	buy(10);
+}
+
+function buyhundred() {
+	buy(100);	
 }
 
 function buyall() {
