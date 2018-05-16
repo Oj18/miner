@@ -2,6 +2,6 @@
 	{
 		"title":"Millionare",
 		"desc":"Get 1 million materials",
-		"check":"/Function(function() { return materials >= 1000000; })/"
+		"check":"//Function(function() { return materials >= 1000000; })//"
 	}
 ]
