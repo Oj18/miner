@@ -454,16 +454,7 @@ function handleachievements() {
 	$.getJSON('achievements.json')
    	.done(function (data) {
 		for (var i = 0; i < data.length; i++) {
-   			var check = JSON.parse(data[i]["check"], function(key, value) {
-	  			if (typeof value === "string" && value.startsWith("Function(") && value.endsWith(")")) {
-    				value = value.substring(10, value.length - 2);
-    				return eval("(" + value + ")");
-  				}
-			
-  				return value;
-			});
-			
-			achievements.push(new Achievement(data[i]["title"], data[i]["desc"], check));
+			achievements.push(new Achievement(data[i]["title"], data[i]["desc"], data[i]["check"]));
 		}
    	});
    
