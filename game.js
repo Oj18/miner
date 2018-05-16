@@ -23,6 +23,9 @@ var refineryallowed = false;
 var refinerycount = 0;
 var refinerycost = 100;
 var last = 0;
+var achievements = [];
+var done = [];
+var mined = 0;
 
 function update() {
 	if (hasautosell) {
@@ -52,6 +55,7 @@ function update() {
 	}
 	
 	document.getElementById("money-count").innerHTML = "$" + (Math.floor(money * 100) / 100);
+	
 	document.getElementById("worker-cost").innerHTML = "Costs: $" + workercost;
 		
 	document.getElementById("refine-cost").innerHTML = "Refinement: Costs " + refinecost + " materials";
@@ -161,9 +165,36 @@ function update() {
 	for (var i = 0; i < minecartcount; i++) { per += minecartadd / 10; }
 	for (var i = 0; i < refinerycount; i++) { per -= 1; }
 	
-	document.getElementById("materials-per-second").innerHTML = per + " materials per second";
+	if (per == 1) {
+		document.getElementById("materials-per-second").innerHTML = "1 material per second";
+	} else {
+		document.getElementById("materials-per-second").innerHTML = per + " materials per second";
+	}
+	
+	
+	achievements.forEach(function(achievement) {
+		var index = achievements.indexOf(achievement);
+		
+      	if (!done[index] && achievement.check()) {
+			done[index] = true;
+			banner(achievement.title, achievement.desc);
+      	}
+ 	});
 	
 	objectives();
+}
+
+function Achievement(title, desc, check){
+	this.title = title;	
+  	this.desc = desc;
+  	this.check = check;
+}
+
+function banner(title, desc) {
+	document.getElementById("banner-title").innerHTML = "<b>" + title + "</b>";
+	document.getElementById("banner-desc").innerHTML = desc;
+	
+	$("#banner").animate({bottom:'+=100'}, 1000, function(){ setTimeout(function(){ $("#banner").animate({bottom:'-=100'}, 1000); }, 1000); });
 }
 
 function objectives() {
@@ -279,7 +310,7 @@ function objectives() {
 			document.getElementById("objective-progress").innerHTML = minecartcount + " / 5";
 			document.getElementById("objective-reward").innerHTML = "Reward: $5000";
 			
-			var max = ((minecart / 5) * 100);
+			var max = ((minecartcount / 5) * 100);
 		
 			var next = parseFloat(document.getElementById("objective-bar").style.width) + 0.2;
 		
@@ -299,7 +330,9 @@ function objectives() {
 	}
 	
 	if (objective == 5) {
-		$(".objective-container").hide()
+		if (!fadewait) {
+			$(".objective-container").hide();
+		}
 	}
 }
 
@@ -413,6 +446,46 @@ function run() {
 	var interval2 = setInterval(function(){
 		save();
 	}, 5000);
+	
+	handleachievements();
+}
+
+function handleachievements() {
+	$.getJSON('achievements.json')
+   	.done(function (data) {
+   		var obj2 = JSON.parse(data, function(key, value) {
+  			if (typeof value === "string" &&
+      			value.startsWith("/Function(") &&
+      			value.endsWith(")/")) {
+    		value = value.substring(10, value.length - 2);
+    		return eval("(" + value + ")");
+  			}
+			
+  			return value;
+		});
+   	});
+   
+	/*achievements.push(new Achievement(
+           "Miner",
+           "Mine 100 materials manually", 
+           function() {
+               return mined >= 100;
+           })
+     );
+	 
+	 achievements.push(new Achievement(
+           "Millionare",
+           "Get 1 million materials", 
+           function() {
+               return materials >= 1000000;
+           })
+     );*/
+	 
+	 if (achievements.length > done.length) {
+		for (var i = done.length; i < achievements.length; i++) {
+			done.push(false);	
+		}
+	 }
 }
 
 function load() {
@@ -438,7 +511,8 @@ function load() {
 	if (localStorage.getItem('refineryallowed')) refineryallowed = JSON.parse(localStorage.getItem('refineryallowed'));
 	if (localStorage.getItem('refinerycount')) refinerycount = JSON.parse(localStorage.getItem('refinerycount'));
 	if (localStorage.getItem('refinerycost')) refinerycost = JSON.parse(localStorage.getItem('refinerycost'));
-	
+	if (localStorage.getItem('mined')) mined = JSON.parse(localStorage.getItem('mined'));
+	if (localStorage.getItem('done')) done = JSON.parse(localStorage.getItem('done'));
 	
 	for (var i = 0; i < workercount; i++) {
 		var interval = setInterval(function(){
@@ -486,12 +560,15 @@ function save() {
 	localStorage.setItem('refineryallowed', JSON.stringify(refineryallowed));
 	localStorage.setItem('refinerycount', JSON.stringify(refinerycount));
 	localStorage.setItem('refinerycost', JSON.stringify(refinerycost));
+	localStorage.setItem('mined', JSON.stringify(mined));
+	localStorage.setItem('done', JSON.stringify(done));
 	
 	$("#saved").fadeIn("slow", function(){ setTimeout(function(){ $("#saved").fadeOut("slow");}, 500); });
 }
 
 function mine() {
 	materials++;
+	mined++;
 }
 
 
@@ -503,10 +580,10 @@ function sell(amount) {
 }
 
 function buy(amount) {
-	if (money >= amount) {
-		money -= amount;
-		materials += amount * exchange;
-	}
+    if (money >= amount * exchange) {
+        money -= amount * exchange;
+        materials += amount;
+    }
 }
 
 function sellone() {

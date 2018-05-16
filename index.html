@@ -4,7 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Miner</title>
 	<link rel="stylesheet" href="main.css">
-    <link rel="
+    
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="Pragma" content="no-cache">
     
@@ -16,23 +16,23 @@
 <div class="container">
   <div class="sidebar1">
   	<div style="margin-left: 10px; margin-top: 5px;">
-    	<div id="materials-per-second">0 materials per second</div>
+    	<div id="materials-per-second">0 materials per second</div> <br />
     	
-        <br />
     	<div id="material-count">0 materials</div>
         <div id="refined-count">0 refined materials</div>
         <div id="money-count">$0</div>
         
         <br />
+        
         <div id="worker-count">0 workers</div>
         <div id="shop-count">0 shops</div>
         <div id="minecart-count">0 minecarts</div>
         <div id="refinery-count">0 refineries</div>
         
         <div style="position: absolute; bottom: 0; margin-bottom:10px;">
-        	<a href="https://goo.gl/forms/KximrCuoJBBCJlJH3">Feedback</a> <br />
+        	<a href="https://goo.gl/forms/KximrCuoJBBCJlJH3" target="_blank">Feedback</a> <br />
         	<a href="changelog.html" target="_blank">Changelog</a> <br />
-            <div>Miner v0.5.4</div>
+            <div>Miner v0.6.0 TEST</div>
         </div>
     </div>
     <!-- end .sidebar1 --></div>
@@ -89,6 +89,12 @@
        	<div id="saved" style="position: fixed; right: 21%; bottom: 1%;">Saved</div>
       	<button type="button" width="300px" id="save" onclick="save();" style="position: fixed; right: 35%; bottom: 1%;">Save</div>
         <button type="button" width="300px" id="delete-save" onclick="reset();" style="position: fixed; right: 27%; bottom: 1%;">Reset save</div>
+        
+        <div id="banner" style="position: fixed; right: 20%; width: 300px; height: 100px; bottom:-100px; background-color:lightgray; text-align:center;">
+        	<div id="banner-title"><b>Title</b></div>
+            
+            <div id="banner-desc" style="padding-top:3px">Description</div>
+        </div>
 	</div>
     <div class="upgrade-container" style="left: 35%; top:10px; position:fixed;">
     	<div id="upgrade-header" style="text-decoration:underline; margin-left:30%;">Upgrade:</div>
