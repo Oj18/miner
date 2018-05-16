@@ -453,18 +453,22 @@ function run() {
 function handleachievements() {
 	$.getJSON('achievements.json')
    	.done(function (data) {
-   		var obj2 = JSON.parse(data, function(key, value) {
-  			if (typeof value === "string" &&
-      			value.startsWith("/Function(") &&
-      			value.endsWith(")/")) {
-    		value = value.substring(10, value.length - 2);
-    		return eval("(" + value + ")");
-  			}
+		for (var i = 0; i < data.length; i++) {
+   			var obj = JSON.parse(data[i], function(key, value) {
+	  			if (typeof value === "string" && value.startsWith("/Function(") && value.endsWith(")/")) {
+    				value = value.substring(10, value.length - 2);
+    				return eval("(" + value + ")");
+  				}
 			
-  			return value;
-		});
+  				return value;
+			});
+			
+			achievements.push(obj);
+		}
    	});
    
+   	alert(achievements.length);
+	
 	/*achievements.push(new Achievement(
            "Miner",
            "Mine 100 materials manually", 
