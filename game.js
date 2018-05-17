@@ -451,8 +451,7 @@ function run() {
 }
 
 function handleachievements() {
-	$.getJSON('achievements.json')
-   	.done(function (data) {
+	$.getJSON('https://oj18.github.io/miner/achievements.json', function(data){
 		for (var i = 0; i < data.length; i++) {
 			achievements.push(new Achievement(data[i]["title"], data[i]["desc"], data[i]["check"]));
 		}
