@@ -2,6 +2,16 @@
 	{
 		"title":"Millionare",
 		"desc":"Get 1 million materials",
-		"check":"function check() { return materials >= 1000000; }"
+		"check":"materials >= 1000000"
+	},
+	{
+		"title":"Miner",
+		"desc":"Mine 100 materials manually",
+		"check":"mined >= 100"
+	},
+	{
+		"title":"Automation",
+		"desc":"Reach 10 workers",
+		"check":"workercount >= 10"
 	}
 ]

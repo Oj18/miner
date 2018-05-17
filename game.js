@@ -26,6 +26,7 @@ var last = 0;
 var achievements = [];
 var done = [];
 var mined = 0;
+var per = 0;
 
 function update() {
 	if (hasautosell) {
@@ -159,7 +160,7 @@ function update() {
 		document.getElementById("worker-desc").innerHTML = "Mines " + workeradd + " materials per second";
 	}
 	
-	var per = 0;
+	per = 0;
 	
 	for (var i = 0; i < workercount; i++) { per += workeradd; }
 	for (var i = 0; i < minecartcount; i++) { per += minecartadd / 10; }
@@ -454,6 +455,8 @@ function handleachievements() {
 	$.getJSON('https://oj18.github.io/miner/achievements.json', function(data){
 		for (var i = 0; i < data.length; i++) {
 			achievements.push(new Achievement(data[i]["title"], data[i]["desc"], data[i]["check"]));
+			
+			console.log(data[i]["check"]);
 			
 			alert(achievements.length);
 		}
