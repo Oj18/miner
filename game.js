@@ -175,7 +175,7 @@ function update() {
 	achievements.forEach(function(achievement) {
 		var index = achievements.indexOf(achievement);
 		
-      	if (!done[index] && achievement.check()) {
+      	if (!done[index] && eval(achievement.check)) {
 			done[index] = true;
 			banner(achievement.title, achievement.desc);
       	}
@@ -454,10 +454,10 @@ function handleachievements() {
 	$.getJSON('https://oj18.github.io/miner/achievements.json', function(data){
 		for (var i = 0; i < data.length; i++) {
 			achievements.push(new Achievement(data[i]["title"], data[i]["desc"], data[i]["check"]));
+			
+			alert(achievements.length);
 		}
    	});
-   
-   	alert(achievements.length);
 	
 	/*achievements.push(new Achievement(
            "Miner",
