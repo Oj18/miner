@@ -1,8 +1,13 @@
 [
 	{
-		"title":"Millionare",
-		"desc":"Get 1 million materials",
-		"check":"materials >= 1000000"
+		"title":"Millionaire",
+		"desc":"Mine 1 million materials",
+		"check":"materials + money >= 1000000"
+	},
+	{
+		"title":"Thousandaire",
+		"desc":"Mine 1 thousand materials",
+		"check":"materials + money >= 1000"
 	},
 	{
 		"title":"Miner",
@@ -10,8 +15,73 @@
 		"check":"mined >= 100"
 	},
 	{
+		"title":"Starting out",
+		"desc":"Mine your first material",
+		"check":"materials >= 1"
+	},
+	{
 		"title":"Automation",
-		"desc":"Reach 10 workers",
+		"desc":"Hire your first worker",
+		"check":"workercount >= 1"
+	},
+	{
+		"title":"Worker Overload",
+		"desc":"Hire 10 workers",
 		"check":"workercount >= 10"
+	},
+	{
+		"title":"Worker Explosion",
+		"desc":"Hire 25 workers",
+		"check":"workercount >= 25"
+	},
+	{
+		"title":"Refining",
+		"desc":"Get your first refined material",
+		"check":"refined >= 1"
+	},
+	{
+		"title":"Shopper",
+		"desc":"Build your first shop",
+		"check":"shopcount >= 1"
+	},
+	{
+		"title":"Extreme Shopper",
+		"desc":"Build 5 shops",
+		"check":"shopcount >= 5"
+	},
+	{
+		"title":"Mega Shopper",
+		"desc":"Build 10 shops",
+		"check":"shopcount >= 10"
+	},
+	{
+		"title":"Minecarts Away",
+		"desc":"Build your first minecart",
+		"check":"minecartcount >= 1"
+	},
+	{
+		"title":"Railway Network",
+		"desc":"Build 5 minecarts",
+		"check":"minecartcount >= 5"
+	},
+	{
+		"title":"Expanded Railway Network",
+		"desc":"Build 10 minecarts",
+		"check":"minecartcount >= 10"
+	},
+	{
+		"title":"Auto Refine?",
+		"desc":"Build your first refinery",
+		"check":"refinerycount >= 1"
+	},
+	{
+		"title":"Refining Industry",
+		"desc":"Build 5 refineries",
+		"check":"refinerycount >= 5"
+	},
+	{
+		"title":"Refining Empire",
+		"desc":"Build 10 refineries",
+		"check":"refinerycount >= 10"
 	}
 ]

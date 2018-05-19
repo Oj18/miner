@@ -27,8 +27,33 @@ var achievements = [];
 var done = [];
 var mined = 0;
 var per = 0;
+var queue = [];
+var frame = 0;
+var framerate = 0;
 
 function update() {
+	frame++;
+	
+	per = 0;
+	
+	for (var i = 0; i < workercount; i++) { per += workeradd; }
+	for (var i = 0; i < minecartcount; i++) { per += minecartadd / 10; }
+	for (var i = 0; i < refinerycount; i++) { per -= 1; }
+	
+	if (per == 1) {
+		document.getElementById("materials-per-second").innerHTML = "1 material per second";
+	} else {
+		document.getElementById("materials-per-second").innerHTML = per + " materials per second";
+	}
+	
+	if (!autosell) {
+		materials += per / 1000;
+	} else {
+		money += per / 1000;
+	}
+	
+	refined += refinerycount / 1000;
+	
 	if (hasautosell) {
 		$("#autosell").fadeIn("slow");
 		
@@ -160,25 +185,14 @@ function update() {
 		document.getElementById("worker-desc").innerHTML = "Mines " + workeradd + " materials per second";
 	}
 	
-	per = 0;
-	
-	for (var i = 0; i < workercount; i++) { per += workeradd; }
-	for (var i = 0; i < minecartcount; i++) { per += minecartadd / 10; }
-	for (var i = 0; i < refinerycount; i++) { per -= 1; }
-	
-	if (per == 1) {
-		document.getElementById("materials-per-second").innerHTML = "1 material per second";
-	} else {
-		document.getElementById("materials-per-second").innerHTML = per + " materials per second";
-	}
-	
-	
 	achievements.forEach(function(achievement) {
 		var index = achievements.indexOf(achievement);
 		
       	if (!done[index] && eval(achievement.check)) {
 			done[index] = true;
-			banner(achievement.title, achievement.desc);
+			queue.push(achievement);
+			
+			if (queue.length == 1) { banner(); }
       	}
  	});
 	
@@ -191,11 +205,19 @@ function Achievement(title, desc, check){
   	this.check = check;
 }
 
-function banner(title, desc) {
-	document.getElementById("banner-title").innerHTML = "<b>" + title + "</b>";
-	document.getElementById("banner-desc").innerHTML = desc;
+function banner() {
+	achievement = queue.shift();
 	
-	$("#banner").animate({bottom:'+=100'}, 1000, function(){ setTimeout(function(){ $("#banner").animate({bottom:'-=100'}, 1000); }, 1000); });
+	document.getElementById("banner-title").innerHTML = "<b>" + achievement.title + "</b>";
+	document.getElementById("banner-desc").innerHTML = achievement.desc;
+	
+	$("#banner").animate({bottom:'+=100'}, 1000, function(){
+		setTimeout(function(){
+			$("#banner").animate({bottom:'-=100'}, 1000);
+			
+			setTimeout(function(){ if (queue.length > 0) { banner(); } }, 100);
+		}, 1000);
+	});
 }
 
 function objectives() {
@@ -365,7 +387,7 @@ function upgrades() {
 	if (upgrade == 0) {
 		document.getElementById("upgrade-title").innerHTML = "Auto Seller";
 		document.getElementById("upgrade-cost").innerHTML = "Costs: $15";
-		document.getElementById("upgrade-desc").innerHTML = "Adds a switch to automaticly sell income (toggleable)";
+		document.getElementById("upgrade-desc").innerHTML = "Adds a switch to automatically sell income (toggleable)";
 	}
 	
 	if (upgrade == 1) {
@@ -457,26 +479,8 @@ function handleachievements() {
 			achievements.push(new Achievement(data[i]["title"], data[i]["desc"], data[i]["check"]));
 			
 			console.log(data[i]["check"]);
-			
-			alert(achievements.length);
 		}
    	});
-	
-	/*achievements.push(new Achievement(
-           "Miner",
-           "Mine 100 materials manually", 
-           function() {
-               return mined >= 100;
-           })
-     );
-	 
-	 achievements.push(new Achievement(
-           "Millionare",
-           "Get 1 million materials", 
-           function() {
-               return materials >= 1000000;
-           })
-     );*/
 	 
 	 if (achievements.length > done.length) {
 		for (var i = done.length; i < achievements.length; i++) {
@@ -510,28 +514,6 @@ function load() {
 	if (localStorage.getItem('refinerycost')) refinerycost = JSON.parse(localStorage.getItem('refinerycost'));
 	if (localStorage.getItem('mined')) mined = JSON.parse(localStorage.getItem('mined'));
 	if (localStorage.getItem('done')) done = JSON.parse(localStorage.getItem('done'));
-	
-	for (var i = 0; i < workercount; i++) {
-		var interval = setInterval(function(){
-			materials += workeradd;
-			
-			if (autosell) { sell(workeradd); }
-		}, 1000);
-	}
-	
-	for (var i = 0; i < minecartcount; i++) {
-		var interval = setInterval(function(){
-			materials += minecartadd;
-			
-			if (autosell) { sell(minecartadd); }
-		}, 10000);
-	}
-	
-	for (var i = 0; i < refinerycount; i++) {
-		var interval = setInterval(function(){
-			refine();
-		}, 1000);
-	}
 }
 
 function save() {
@@ -612,7 +594,7 @@ function buyhundred() {
 }
 
 function buyall() {
-	buy(money);
+	buy(money / exchange);
 }
 
 function refine() {
@@ -635,12 +617,6 @@ function addworker() {
 	workercost = workercost.toFixed(0);
 	
 	workercount++;
-		
-	var interval = setInterval(function(){
-		materials += workeradd;
-		
-		if (autosell) { sell(workeradd); }
-	}, 1000);
 }
 
 function shop() {
@@ -673,10 +649,6 @@ function addrefinery() {
 	
 	refinerycost *= 1.3;
 	refinerycost = refinerycost.toFixed();
-	
-	var interval = setInterval(function(){
-		refine();
-	}, 1000);
 }
 
 function minecart() {
@@ -692,12 +664,6 @@ function addminecart() {
 	
 	minecartcost *= 1.3;
 	minecartcost = minecartcost.toFixed();
-	
-	var interval = setInterval(function(){
-		materials += minecartadd;
-		
-		if (autosell) { sell(minecartadd); }
-	}, 10000);
 }
 
 function buyupgrade() {
